@@ -77,6 +77,7 @@ void* H264LiveFramedSource::H264LiveThread(void *arg)
 			else{
 				bFirst = False;
 				ptr->GetSPSandPPS(bitstream, length);
+				ptr->isRequest = False;
 				//close
 				h264encoder_close(hd);
 				//reopen
