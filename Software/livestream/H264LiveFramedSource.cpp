@@ -71,15 +71,17 @@ void* H264LiveFramedSource::H264LiveThread(void *arg)
 			if(length == 0){
 				break;
 			}
-			ptr->GetSPSandPPS(bitstream, length);
-			if(bFirst){
+			if(!bFirst){
+				queue_push(q, bitstream, length);
+			}
+			else{
 				bFirst = False;
+				ptr->GetSPSandPPS(bitstream, length);
 				//close
 				h264encoder_close(hd);
 				//reopen
 				h264encoder_open(hd, (char*)DEFAULT_H264ENCODER_DEVICE);
 			}
-			queue_push(q, bitstream, length);
 			signalNewH264LiveFrameData(ptr);
 		}	
 	}
