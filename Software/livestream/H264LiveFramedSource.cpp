@@ -73,6 +73,7 @@ void* H264LiveFramedSource::H264LiveThread(void *arg)
 			}
 			if(!bFirst){
 				queue_push(q, bitstream, length);
+				signalNewH264LiveFrameData(ptr);
 			}
 			else{
 				bFirst = False;
@@ -83,7 +84,6 @@ void* H264LiveFramedSource::H264LiveThread(void *arg)
 				//reopen
 				h264encoder_open(hd, (char*)DEFAULT_H264ENCODER_DEVICE);
 			}
-			signalNewH264LiveFrameData(ptr);
 		}	
 	}
 	delete [] bitstream;
